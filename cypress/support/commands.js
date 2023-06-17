@@ -29,6 +29,8 @@ Cypress.Commands.add('createUser', (user) => {
         method: 'POST',
         url:'https://petstore.swagger.io/v2/user',
         body:{
+            "id": 123,
+            "username": "Золушка",
             "firstName": "Зоя",
             "lastName": "Панфилова",
             "email": "email@email.ru",
@@ -37,22 +39,22 @@ Cypress.Commands.add('createUser', (user) => {
             "userStatus": 0
           },
         }).then((response) => {
-            cy.request({
-                method: 'POST',
-                url:'https://petstore.swagger.io/v2/user',
-                body: user,
-            })
             expect(response.status).eq(200)
+            expect(response.body).eql({
+                "code":200,
+                "type": "unknown",
+                "message": "123"
+            })
         })
     })
 
     Cypress.Commands.add('updateUser', (user) => {
         cy.request({
             method: 'PUT',
-            url:'https://petstore.swagger.io/v2/user/%D0%9A%D1%83',
+            url:'https://petstore.swagger.io/v2/user/username',
             body:{
                 "id": 0,
-                
+                "username": "Белоснежка",
                 "firstName": "Зоя",
                 "lastName": "Панфилова",
                 "email": "email@email.ru",
@@ -61,11 +63,6 @@ Cypress.Commands.add('createUser', (user) => {
                 "userStatus": 0
               },
             }).then((response) => {
-                cy.request({
-                    method: 'PUT',
-                    url:'https://petstore.swagger.io/v2/user/%D0%9A%D1%83',
-                    body: user,
-                })
                 expect(response.status).eq(200)
             })
         })
